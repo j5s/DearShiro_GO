@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"regexp"
 	"strconv"
 )
@@ -23,14 +24,11 @@ var reg, _ = regexp.Compile(".*rememberMe=deleteMe.*")
 var buffer, _ = hex.DecodeString(data.SimplePrincipalCollectionHex)
 
 func (this *ShiroConnection) CheckFalseKey(key []byte) bool {
-	rememberMe, err := util.GetRememberMe(key, buffer)
-	if err != nil {
-		return true
-	}
+	rememberMe, _ := util.GetRememberMe(key, buffer)
 
 	urlBase, err := url.Parse(this.BaseUrl)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(os.Stderr, "fetch: url parse error")
 		return true
 	}
 
@@ -47,7 +45,7 @@ func (this *ShiroConnection) CheckFalseKey(key []byte) bool {
 	client := new(http.Client)
 	response, err := client.Do(request)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(os.Stderr, "fetch: some error appended during connection")
 		return true
 	}
 	fmt.Println("[+]Test Key: " + string(key))
