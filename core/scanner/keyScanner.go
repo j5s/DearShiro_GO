@@ -1,6 +1,7 @@
 package scanner
 
 import (
+	"DearShiro_GO/core/conn"
 	"bufio"
 	"fmt"
 	"io"
@@ -20,11 +21,19 @@ func (this KeyScanner) Scan() {
 	defer file.Close()
 	reader := bufio.NewReader(file)
 
-	for true {
-		line, _, end := reader.ReadLine()
+	var isFalseKey = true
+	var key []byte
+	var end error
+
+	for isFalseKey {
+		key, _, end = reader.ReadLine()
 		if end == io.EOF {
 			break
 		}
-		fmt.Println(string(line))
+		connection := conn.NewShiroConnection(this.Target.Base)
+		isFalseKey = connection.CheckFalseKey(key)
+	}
+	if !isFalseKey {
+		println("[*]Found key: " + string(key))
 	}
 }
