@@ -15,6 +15,7 @@ var keyFuzzCmd = &cobra.Command{
 		scanner := &scanner.KeyScanner{TargetUrl: rawUrl}
 		scanner.Scan()
 	},
+	Example: "keyfuzz http://127.0.0.1:8000",
 }
 
 func init() {

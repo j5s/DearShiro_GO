@@ -39,7 +39,7 @@ type queryResult struct {
 	} `json:"data"`
 }
 
-var availableGadget = make([]string, 0, 10)
+var AvailableGadget = make([]string, 0, 10)
 
 type GadgetScanner struct {
 	TargetUrl      string
@@ -48,8 +48,7 @@ type GadgetScanner struct {
 
 func (this GadgetScanner) Scan() {
 	//Attention: command is empty
-	payloadMap := new(data.PayloadMap)
-	payloadMap.AddAllPayload()
+	payloadMap := data.NewPayloadMap()
 	//
 	fmt.Fprintln(os.Stderr, "[*]Use Key: "+this.TargetShiroKey)
 	for funcName, serialFunc := range payloadMap.NamedFunc {
@@ -75,11 +74,15 @@ func (this GadgetScanner) Scan() {
 
 		if len(cq.Data) != 0 {
 			fmt.Fprintln(os.Stderr, "[*] Found gadget: "+funcName)
-			availableGadget = append(availableGadget, funcName)
+			AvailableGadget = append(AvailableGadget, funcName)
 		}
 	}
+	PrintAvailableGadget()
+}
+
+func PrintAvailableGadget() {
 	fmt.Fprintln(os.Stderr, "\n#######Available Gadget######")
-	for i, g := range availableGadget {
+	for i, g := range AvailableGadget {
 		fmt.Fprintf(os.Stderr, "[%d]: %s", i+1, g)
 	}
 	fmt.Fprintln(os.Stderr, "\n#######Available Gadget######")
