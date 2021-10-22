@@ -9,11 +9,13 @@ import (
 )
 
 type KeyScanner struct {
-	Target *ShiroTarget
+	TargetUrl string
 }
 
 func (this KeyScanner) Scan() {
-	file, err := os.Open("resources/key")
+	// TODO: some bug occur in file path
+	file, err := os.Open("/Users/jin/Desktop/WorkSpace/GolandProjects/DearShiro_GO/resources/key")
+	//file, err := os.Open("resources/key")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -30,10 +32,11 @@ func (this KeyScanner) Scan() {
 		if end == io.EOF {
 			break
 		}
-		connection := conn.NewConnection(this.Target.Base)
+		connection := conn.NewConnection(this.TargetUrl)
 		isFalseKey = connection.CheckFalseKey(key)
 	}
 	if !isFalseKey {
+		println("############################################")
 		println("[*]Found key: " + string(key))
 	}
 }
