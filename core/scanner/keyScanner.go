@@ -5,11 +5,12 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 )
 
 type KeyScanner struct {
-	TargetUrl string
+	TargetUrl *url.URL
 }
 
 func (this KeyScanner) Scan() {
@@ -32,7 +33,7 @@ func (this KeyScanner) Scan() {
 		if end == io.EOF {
 			break
 		}
-		connection := conn.NewConnection(this.TargetUrl)
+		connection := &conn.Connection{BaseUrl: this.TargetUrl}
 		isFalseKey = connection.CheckFalseKey(key)
 	}
 	if !isFalseKey {

@@ -16,15 +16,6 @@ type Connection struct {
 	BaseUrl *url.URL
 }
 
-func NewConnection(baseUrlString string) *Connection {
-	baseUrl, err := url.Parse(baseUrlString)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "fetch: url parse error")
-		return nil
-	}
-	return &Connection{BaseUrl: baseUrl}
-}
-
 func (this *Connection) SendRememberMe(key []byte, content []byte) *http.Response {
 	rememberMe, _ := util.GetRememberMe(key, content)
 

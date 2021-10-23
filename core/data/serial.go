@@ -14,20 +14,12 @@ type payloadMap struct {
 
 var instance *payloadMap
 
-//func (this *payloadMap) AddAllPayload() {
-//	this.NamedFunc = make(map[string]func(cmd string) []byte)
-//	// TODO: The SerialUiD is different from shiro
-//	this.NamedFunc["NOCC"] = gososerial.GetCB1
-//	// CCK1 is OK
-//	this.NamedFunc["CCK1"] = gososerial.GetCCK1
-//}
-
 func NewPayloadMap() *payloadMap {
 	if instance == nil {
 		instance = new(payloadMap)
 		instance.NamedFunc = make(map[string]func(cmd string) []byte)
-		// TODO: The SerialUiD is different from shiro
-		instance.NamedFunc["NOCC"] = gososerial.GetCB1
+		// TODO: The SerialUiD is different from shiro built-in CommonsBeanUtils
+		instance.NamedFunc["NoCC"] = gososerial.GetCB1
 		// CCK1 is OK
 		instance.NamedFunc["CCK1"] = gososerial.GetCCK1
 		return instance

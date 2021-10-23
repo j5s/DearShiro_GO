@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/EmYiQing/Gososerial v0.1.0
 	github.com/go-basic/uuid v1.0.0
+	github.com/jawher/mow.cli v1.2.0
 	github.com/spf13/cobra v1.2.1
 )
 

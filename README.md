@@ -8,6 +8,20 @@ Golang入门练手，[DearShiro](https://github.com/F4ded/DearShiro)的Golang改
 已完成: 
 - 探测Key
 - 探测可用gadget
+- 利用gadget执行命令
 
-TODO: 
-- 命令行使用工具
+```
+go build -ldflags "-w -s" dearshiro.go
+```
+
+```
+./dearshiro
+
+./dearshiro {kfuzz | gfuzz | cexec} --help
+
+./dearshiro kfuzz http://127.0.0.1:8000
+
+./dearshiro gfuzz http://127.0.0.1:8080 -k=kPH+bIxk5D2deZiIxcaaaA==
+
+./dearshiro cexec http://127.0.0.1:8000 [-k] -g=CCK1 -c='Open -a Calculator'
+```
