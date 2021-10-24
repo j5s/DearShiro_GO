@@ -81,5 +81,7 @@ func main() {
 	app.Command("gfuzz", "To Fuzz the avaliable gadget", cmdGadgetFuzz)
 	app.Command("cexec", "To execute the command", cmdCommandExec)
 
-	app.Run(os.Args)
+	args := []string{"dearshiro", "kfuzz", "http://123.60.26.60:32767/login"}
+	app.Run(args)
+	//app.Run(os.Args)
 }

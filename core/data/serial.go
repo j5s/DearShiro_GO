@@ -22,6 +22,10 @@ func NewPayloadMap() *payloadMap {
 		instance.NamedFunc["NoCC"] = gososerial.GetCB1
 		// CCK1 is OK
 		instance.NamedFunc["CCK1"] = gososerial.GetCCK1
+		// Not test yet
+		instance.NamedFunc["CCK2"] = gososerial.GetCCK2
+		instance.NamedFunc["CCK3"] = gososerial.GetCCK3
+		instance.NamedFunc["CCK4"] = gososerial.GetCCK4
 		return instance
 	}
 	return instance
